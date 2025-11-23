@@ -80,53 +80,51 @@ const projects = [
     }
 ];
 
-// Gallery state
+// Gallery State
 let currentImageIndex = 0;
 let currentProject = null;
 
-// Modal Functions
+/* ---------------------- MODAL FUNCTIONS ---------------------- */
 function openModal(index) {
     const project = projects[index];
     currentProject = project;
     currentImageIndex = 0;
+
     const modalBody = document.getElementById('modalBody');
-    
-    let featuresHTML = project.features.map(feature => 
-        `<li>${feature}</li>`
+
+    let featuresHTML = project.features.map(feature => `<li>${feature}</li>`).join('');
+    let imagesHTML = project.images.map((img, idx) =>
+        `<img src="${img}" alt="${project.title} - Screenshot ${idx + 1}" 
+        class="modal-image ${idx === 0 ? 'active' : ''}">`
     ).join('');
 
-    let imagesHTML = project.images.map((img, idx) => 
-        `<img src="${img}" alt="${project.title} - Screenshot ${idx + 1}" class="modal-image ${idx === 0 ? 'active' : ''}">`
-    ).join('');
-
-    let dotsHTML = project.images.map((_, idx) => 
+    let dotsHTML = project.images.map((_, idx) =>
         `<div class="gallery-dot ${idx === 0 ? 'active' : ''}" onclick="goToImage(${idx})"></div>`
     ).join('');
-    
+
     modalBody.innerHTML = `
         <div class="modal-gallery">
             ${imagesHTML}
             <button class="gallery-nav prev" onclick="changeImage(-1)">‹</button>
             <button class="gallery-nav next" onclick="changeImage(1)">›</button>
             <div class="image-counter">${currentImageIndex + 1} / ${project.images.length}</div>
-            <div class="gallery-dots">
-                ${dotsHTML}
-            </div>
+            <div class="gallery-dots">${dotsHTML}</div>
         </div>
+
         <div class="modal-body-content">
             <h3>${project.title}</h3>
             <p class="modal-tech">${project.tech}</p>
             <p class="modal-description">${project.description}</p>
+
             <h4>Key Features</h4>
             <ul class="features-list">
                 ${featuresHTML}
             </ul>
-            <div class="impact">
-                <strong>Impact:</strong> ${project.impact}
-            </div>
+
+            <div class="impact"><strong>Impact:</strong> ${project.impact}</div>
         </div>
     `;
-    
+
     document.getElementById('modal').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
@@ -135,18 +133,14 @@ function changeImage(direction) {
     const images = document.querySelectorAll('.modal-image');
     const dots = document.querySelectorAll('.gallery-dot');
     const counter = document.querySelector('.image-counter');
-    
+
+    if (!images.length) return;
+
     images[currentImageIndex].classList.remove('active');
     dots[currentImageIndex].classList.remove('active');
-    
-    currentImageIndex += direction;
-    
-    if (currentImageIndex >= images.length) {
-        currentImageIndex = 0;
-    } else if (currentImageIndex < 0) {
-        currentImageIndex = images.length - 1;
-    }
-    
+
+    currentImageIndex = (currentImageIndex + direction + images.length) % images.length;
+
     images[currentImageIndex].classList.add('active');
     dots[currentImageIndex].classList.add('active');
     counter.textContent = `${currentImageIndex + 1} / ${images.length}`;
@@ -156,12 +150,14 @@ function goToImage(index) {
     const images = document.querySelectorAll('.modal-image');
     const dots = document.querySelectorAll('.gallery-dot');
     const counter = document.querySelector('.image-counter');
-    
+
+    if (!images.length) return;
+
     images[currentImageIndex].classList.remove('active');
     dots[currentImageIndex].classList.remove('active');
-    
+
     currentImageIndex = index;
-    
+
     images[currentImageIndex].classList.add('active');
     dots[currentImageIndex].classList.add('active');
     counter.textContent = `${currentImageIndex + 1} / ${images.length}`;
@@ -173,17 +169,10 @@ function closeModal() {
 }
 
 function closeModalOnBackdrop(event) {
-    if (event.target.id === 'modal') {
-        closeModal();
-    }
+    if (event.target.id === 'modal') closeModal();
 }
 
-// Smooth reveal animations on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
+/* ---------------------- SCROLL REVEAL ---------------------- */
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -191,165 +180,116 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.style.transform = 'translateY(0)';
         }
     });
-}, observerOptions);
+}, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
 
-// Initialize on DOM load
+/* ---------------------- ON DOM LOAD ---------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-    // Observe project cards
-    const cards = document.querySelectorAll('.project-card');
-    cards.forEach((card, index) => {
+
+    // Reveal project cards
+    document.querySelectorAll('.project-card').forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(50px)';
         card.style.transition = `all 0.6s ease ${index * 0.1}s`;
         observer.observe(card);
     });
 
-    // Observe skill tags
-    const skills = document.querySelectorAll('.skill-tag');
-    skills.forEach((skill, index) => {
+    // Reveal skill tags
+    document.querySelectorAll('.skill-tag').forEach((skill, index) => {
         skill.style.opacity = '0';
         skill.style.transform = 'translateY(30px)';
         skill.style.transition = `all 0.5s ease ${index * 0.05}s`;
         observer.observe(skill);
     });
 
-    // Contact Form Handler
+    /* ---------------------- CONTACT FORM ---------------------- */
     const contactForm = document.getElementById('contactForm');
-    
+
     if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-            
+
             const submitBtn = this.querySelector('.submit-btn');
             const btnText = submitBtn.querySelector('.btn-text');
             const btnLoading = submitBtn.querySelector('.btn-loading');
             const formMessage = document.getElementById('formMessage');
-            
-            // Disable button and show loading state
+
             submitBtn.disabled = true;
             btnText.style.display = 'none';
             btnLoading.style.display = 'inline';
             formMessage.style.display = 'none';
             formMessage.className = 'form-message';
-            
-            // Get form data
+
             const formData = new FormData(this);
-            
+
             try {
-                console.log('Sending form data to contact.php...');
-                
-                const response = await fetch('contact.php', {
+                const response = await fetch(this.action, {
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
+                    headers: { 'Accept': 'application/json' }
                 });
-                
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                
-                // Check if response is OK
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                // Try to parse JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    const text = await response.text();
-                    console.error('Non-JSON response:', text);
-                    throw new Error('Server returned non-JSON response. Check if contact.php exists and PHP is enabled.');
-                }
-                
-                const data = await response.json();
-                console.log('Response data:', data);
-                
-                if (data.success) {
-                    formMessage.textContent = data.message;
+
+                if (response.ok) {
+                    formMessage.textContent = "Thank you for your message! I will get back to you soon.";
                     formMessage.classList.add('success');
-                    this.reset(); // Clear form
+                    this.reset();
                 } else {
-                    formMessage.textContent = data.message;
+                    const data = await response.json();
+                    formMessage.textContent = data.errors
+                        ? data.errors.map(err => err.message).join(', ')
+                        : 'Oops! There was a problem submitting your form.';
                     formMessage.classList.add('error');
                 }
             } catch (error) {
-                console.error('Form submission error:', error);
-                
-                // Provide specific error messages
-                let errorMessage = 'An error occurred. ';
-                
-                if (error.message.includes('404')) {
-                    errorMessage += 'Contact form handler not found. Please ensure contact.php is in your root directory.';
-                } else if (error.message.includes('405')) {
-                    errorMessage += 'Server method not allowed. Please check server configuration or contact your hosting provider.';
-                } else if (error.message.includes('non-JSON')) {
-                    errorMessage += error.message;
-                } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-                    errorMessage += 'Network error. Please check your internet connection.';
-                } else {
-                    errorMessage += 'Please try again later or contact me directly at lyanz.navarette@example.com';
-                }
-                
-                formMessage.textContent = errorMessage;
+                console.error("Form submission error:", error);
+                formMessage.textContent = "An error occurred. Please try again later.";
                 formMessage.classList.add('error');
             } finally {
-                // Re-enable button and restore original state
                 submitBtn.disabled = false;
                 btnText.style.display = 'inline';
                 btnLoading.style.display = 'none';
                 formMessage.style.display = 'block';
-                
-                // Auto-hide success message after 5 seconds
+
                 if (formMessage.classList.contains('success')) {
-                    setTimeout(() => {
-                        formMessage.style.display = 'none';
-                    }, 5000);
+                    setTimeout(() => formMessage.style.display = 'none', 5000);
                 }
             }
         });
     }
-});
 
-// Parallax Effects
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    
-    // Hero parallax
-    const heroBg = document.getElementById('heroBg');
-    const heroContent = document.getElementById('heroContent');
-    
-    if (heroBg) {
-        heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-    if (heroContent) {
-        heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-        heroContent.style.opacity = Math.max(0, 1 - (scrolled * 0.002));
-    }
+    /* ---------------------- PARALLAX EFFECT ---------------------- */
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
 
-    // Projects section parallax
-    const projectsSection = document.querySelector('.projects');
-    if (projectsSection) {
-        const rect = projectsSection.getBoundingClientRect();
-        const offset = window.pageYOffset - projectsSection.offsetTop;
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-            projectsSection.style.backgroundPositionY = `${offset * 0.3}px`;
+        const heroBg = document.getElementById('heroBg');
+        const heroContent = document.getElementById('heroContent');
+
+        if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+        if (heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            heroContent.style.opacity = Math.max(0, 1 - scrolled * 0.002);
         }
-    }
-});
 
-// Smooth scroll for nav links
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-            const offset = 80;
-            const targetPosition = target.offsetTop - offset;
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
+        const projectsSection = document.querySelector('.projects');
+        if (projectsSection) {
+            const rect = projectsSection.getBoundingClientRect();
+            const offset = window.pageYOffset - projectsSection.offsetTop;
+
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                projectsSection.style.backgroundPositionY = `${offset * 0.3}px`;
+            }
         }
+    });
+
+    /* ---------------------- SMOOTH SCROLL ---------------------- */
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                const offset = 80;
+                const targetPosition = target.offsetTop - offset;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+        });
     });
 });
