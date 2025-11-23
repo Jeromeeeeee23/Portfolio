@@ -272,4 +272,65 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     });
 });
 
+// Add this to your index.js file or create a separate contact.js file
+
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            formMessage.style.display = 'none';
+            formMessage.className = 'form-message';
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('contact.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('success');
+                    this.reset(); // Clear form
+                } else {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('error');
+                }
+            } catch (error) {
+                formMessage.textContent = 'An error occurred. Please try again later or contact me directly via email.';
+                formMessage.classList.add('error');
+            } finally {
+                // Re-enable button and restore original state
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+                formMessage.style.display = 'block';
+                
+                // Auto-hide success message after 5 seconds
+                if (formMessage.classList.contains('success')) {
+                    setTimeout(() => {
+                        formMessage.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    }
+});
+
            

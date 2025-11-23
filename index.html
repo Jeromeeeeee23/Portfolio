@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lyanz Jerome Navarette - Web Developer Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%233e2723' width='100' height='100'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23d4a373' font-family='Arial, sans-serif' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="others/style.css">
 
 </head>
@@ -167,11 +168,42 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="contact-content">
             <h2>Let's Connect</h2>
             <p>Interested in collaborating? I'm always open to discussing new projects and opportunities in web development.</p>
+            
+            <!-- Contact Form -->
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Send Message</span>
+                    <span class="btn-loading" style="display: none;">Sending...</span>
+                </button>
+                
+                <div id="formMessage" class="form-message"></div>
+            </form>
+            
+            <!-- Contact Links -->
             <div class="contact-links">
                 <a href="mailto:lyanz.navarette@example.com" class="contact-link">
                     <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
