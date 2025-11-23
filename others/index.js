@@ -1,10 +1,9 @@
-
 const projects = [
     {
         title: "Hospital Doctors Directory Kiosk",
         tech: "HTML, CSS, PHP, MySQL",
         images: [
-            "others/assets/DoctorDirectory1.png", // Replace with your screenshots
+            "others/assets/DoctorDirectory1.png",
             "others/assets/DoctorDirectory2.png",
             "others/assets/DoctorDirectory3.png",
             "others/assets/DoctorDirectory4.png"
@@ -24,7 +23,7 @@ const projects = [
         title: "Restaurant Table Reservation System",
         tech: "NetBeans, Java, MySQL",
         images: [
-            "others/assets/Reservation1.jpg", // Replace with your screenshots
+            "others/assets/Reservation1.jpg",
             "others/assets/Reservation2.jpg",
             "others/assets/Reservation3.jpg",
             "others/assets/Reservation4.jpg"
@@ -44,7 +43,7 @@ const projects = [
         title: "Online Bookstore E-Commerce",
         tech: "Vite, Tailwind CSS, PHP, MySQL",
         images: [
-            "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=800&h=500&fit=crop", // Replace with your screenshots
+            "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=800&h=500&fit=crop",
             "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=500&fit=crop",
             "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=500&fit=crop"
         ],
@@ -63,7 +62,7 @@ const projects = [
         title: "Hospital Intranet Portal",
         tech: "HTML, CSS, PHP, MySQL",
         images: [
-            "others/assets/Intranet1.png", // Replace with your screenshots
+            "others/assets/Intranet1.png",
             "others/assets/Intranet2.png",
             "others/assets/Intranet3.png",
             "others/assets/Intranet4.png"
@@ -80,21 +79,6 @@ const projects = [
         impact: "Improved inter-departmental communication by 60% and centralized hospital information management"
     }
 ];
-
-// Parallax Effect
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroBg = document.getElementById('heroBg');
-    const heroContent = document.getElementById('heroContent');
-    
-    if (heroBg) {
-        heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-    if (heroContent) {
-        heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-        heroContent.style.opacity = 1 - (scrolled * 0.002);
-    }
-});
 
 // Gallery state
 let currentImageIndex = 0;
@@ -209,8 +193,9 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe project cards
+// Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+    // Observe project cards
     const cards = document.querySelectorAll('.project-card');
     cards.forEach((card, index) => {
         card.style.opacity = '0';
@@ -227,9 +212,106 @@ document.addEventListener('DOMContentLoaded', () => {
         skill.style.transition = `all 0.5s ease ${index * 0.05}s`;
         observer.observe(skill);
     });
+
+    // Contact Form Handler
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            formMessage.style.display = 'none';
+            formMessage.className = 'form-message';
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            try {
+                console.log('Sending form data to contact.php...');
+                
+                const response = await fetch('contact.php', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                // Check if response is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                // Try to parse JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Non-JSON response:', text);
+                    throw new Error('Server returned non-JSON response. Check if contact.php exists and PHP is enabled.');
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('success');
+                    this.reset(); // Clear form
+                } else {
+                    formMessage.textContent = data.message;
+                    formMessage.classList.add('error');
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                
+                // Provide specific error messages
+                let errorMessage = 'An error occurred. ';
+                
+                if (error.message.includes('404')) {
+                    errorMessage += 'Contact form handler not found. Please ensure contact.php is in your root directory.';
+                } else if (error.message.includes('405')) {
+                    errorMessage += 'Server method not allowed. Please check server configuration or contact your hosting provider.';
+                } else if (error.message.includes('non-JSON')) {
+                    errorMessage += error.message;
+                } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+                    errorMessage += 'Network error. Please check your internet connection.';
+                } else {
+                    errorMessage += 'Please try again later or contact me directly at lyanz.navarette@example.com';
+                }
+                
+                formMessage.textContent = errorMessage;
+                formMessage.classList.add('error');
+            } finally {
+                // Re-enable button and restore original state
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+                formMessage.style.display = 'block';
+                
+                // Auto-hide success message after 5 seconds
+                if (formMessage.classList.contains('success')) {
+                    setTimeout(() => {
+                        formMessage.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    }
 });
 
-// Add parallax to sections
+// Parallax Effects
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
     
@@ -256,7 +338,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Add smooth hover effect to nav links
+// Smooth scroll for nav links
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -271,66 +353,3 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         }
     });
 });
-
-// Add this to your index.js file or create a separate contact.js file
-
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = this.querySelector('.submit-btn');
-            const btnText = submitBtn.querySelector('.btn-text');
-            const btnLoading = submitBtn.querySelector('.btn-loading');
-            const formMessage = document.getElementById('formMessage');
-            
-            // Disable button and show loading state
-            submitBtn.disabled = true;
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline';
-            formMessage.style.display = 'none';
-            formMessage.className = 'form-message';
-            
-            // Get form data
-            const formData = new FormData(this);
-            
-            try {
-                const response = await fetch('contact.php', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    formMessage.textContent = data.message;
-                    formMessage.classList.add('success');
-                    this.reset(); // Clear form
-                } else {
-                    formMessage.textContent = data.message;
-                    formMessage.classList.add('error');
-                }
-            } catch (error) {
-                formMessage.textContent = 'An error occurred. Please try again later or contact me directly via email.';
-                formMessage.classList.add('error');
-            } finally {
-                // Re-enable button and restore original state
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                btnLoading.style.display = 'none';
-                formMessage.style.display = 'block';
-                
-                // Auto-hide success message after 5 seconds
-                if (formMessage.classList.contains('success')) {
-                    setTimeout(() => {
-                        formMessage.style.display = 'none';
-                    }, 5000);
-                }
-            }
-        });
-    }
-});
-
-           
