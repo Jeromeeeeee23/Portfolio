@@ -1,0 +1,33 @@
+# .htaccess - Place this in your root directory (same folder as index.html)
+
+# Enable PHP processing
+<IfModule mod_php7.c>
+    php_flag display_errors Off
+    php_flag log_errors On
+</IfModule>
+
+# Allow all HTTP methods
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+</IfModule>
+
+# Explicitly allow POST requests
+<FilesMatch "\.php$">
+    <LimitExcept GET POST OPTIONS>
+        Deny from all
+    </LimitExcept>
+</FilesMatch>
+
+# CORS headers for all PHP files
+<FilesMatch "\.php$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        Header set Access-Control-Allow-Headers "Content-Type, X-Requested-With"
+    </IfModule>
+</FilesMatch>
+
+# Force PHP to handle the file
+AddType application/x-httpd-php .php
+AddHandler application/x-httpd-php .php
