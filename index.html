@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyanz Jerome Navarette - Web Developer Portfolio</title>
+    <link rel="stylesheet" href="others/style.css">
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">LYANZ</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-content" id="heroContent">
+            <svg class="hero-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            <h1>Lyanz Jerome Navarette</h1>
+            <h2>Web Developer</h2>
+            <p>Crafting elegant digital solutions with a focus on real estate technologies. Specialized in building responsive, user-friendly web applications that drive business growth.</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-image-wrapper">
+                    <img src="others/assets/Profile.jpg" alt="Lyanz Jerome Navarette" class="about-image">
+                </div>
+                <div class="about-text">
+                    <p style="font-size: 1.1rem; color: #5d4037; line-height: 1.8; margin-bottom: 1.5rem;">
+                        As a dedicated full-stack web developer, I possess comprehensive expertise in developing sophisticated web applications with a solid foundation in both frontend and backend technologies. My professional approach emphasizes the creation of modern, intuitive, and high-performing digital solutions that enable businesses to establish and maintain a commanding online presence in today's competitive marketplace.
+                    </p>
+                    <p style="font-size: 1rem; color: #5d4037; line-height: 1.8; margin-bottom: 1.5rem;">
+                        Throughout my career, I have demonstrated proficiency in building custom websites for diverse organizations, ranging from established corporations to local enterprises and small businesses. My development methodology prioritizes the delivery of user-friendly designs, fully responsive layouts, and reliable system functionality, with each solution meticulously tailored to address the unique requirements and objectives of individual clients.
+                    </p>
+                    <p style="font-size: 1rem; color: #5d4037; line-height: 1.8;">
+                        I am particularly passionate about leveraging cutting-edge web technologies to create seamless digital experiences that not only meet but exceed client expectations. My commitment to continuous learning and adaptation to emerging industry standards ensures that every project I undertake reflects the highest level of technical excellence and professional craftsmanship.
+                    </p>
+                </div>
+            </div>
+            <h3 style="text-align: center; font-size: 2rem; font-weight: 300; margin-top: 4rem; margin-bottom: 2rem; color: #3e2723;">Technical Expertise</h3>
+            <div class="skills-grid">
+                <div class="skill-tag">HTML5 & CSS3</div>
+                <div class="skill-tag">Tailwind CSS</div>
+                <div class="skill-tag">Vite</div>
+                <div class="skill-tag">PHP</div>
+                <div class="skill-tag">JavaScript</div>
+                <div class="skill-tag">MySQL</div>
+                <div class="skill-tag">NetBeans IDE</div>
+                <div class="skill-tag">Java</div>
+                <div class="skill-tag">Responsive Design</div>
+                <div class="skill-tag">Database Design</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card" onclick="openModal(0)">
+                    <img src="others/assets/DoctorDirectory1.png" alt="Hospital Doctors Directory" class="project-image">
+                    <div class="project-content">
+                        <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                        <h3>Hospital Doctors Directory Kiosk</h3>
+                        <p class="project-tech">HTML, CSS, PHP, MySQL</p>
+                        <p class="project-description">Interactive kiosk system for hospital entrance allowing patients to find specialized doctors by illness type with real-time availability.</p>
+                        <div class="view-details">
+                            View Details (3 screenshots)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card" onclick="openModal(1)">
+                    <img src="others/assets/Reservation1.jpg" alt="Restaurant Reservation System" class="project-image">
+                    <div class="project-content">
+                        <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <h3>Restaurant Table Reservation System</h3>
+                        <p class="project-tech">NetBeans, Java, MySQL</p>
+                        <p class="project-description">Desktop application for restaurant table management with visual layout, real-time tracking, and automated confirmations.</p>
+                        <div class="view-details">
+                            View Details (3 screenshots)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card" onclick="openModal(2)">
+                    <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=800&h=500&fit=crop" alt="Online Bookstore" class="project-image">
+                    <div class="project-content">
+                        <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <h3>Online Bookstore E-Commerce</h3>
+                        <p class="project-tech">Vite, Tailwind CSS, PHP, MySQL</p>
+                        <p class="project-description">Full-featured e-commerce platform for book sales with shopping cart, secure checkout, and comprehensive admin panel.</p>
+                        <div class="view-details">
+                            View Details (3 screenshots)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card" onclick="openModal(3)">
+                    <img src="others/assets/Intranet1.png" alt="Hospital Intranet" class="project-image">
+                    <div class="project-content">
+                        <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <h3>Hospital Intranet Portal</h3>
+                        <p class="project-tech">HTML, CSS, PHP, MySQL</p>
+                        <p class="project-description">Internal communication platform for hospital departments to manage announcements, events, and departmental updates.</p>
+                        <div class="view-details">
+                            View Details (3 screenshots)
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-content">
+            <h2>Let's Connect</h2>
+            <p>Interested in collaborating? I'm always open to discussing new projects and opportunities in web development.</p>
+            <div class="contact-links">
+                <a href="mailto:lyanz.navarette@example.com" class="contact-link">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Email
+                </a>
+                <a href="https://github.com/Jeromeeeeee23" target="_blank" class="contact-link">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/lyanz-jerome-navarette-88558a39a/" target="_blank" class="contact-link">
+                    <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Lyanz Jerome Navarette. Crafted with passion and precision.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <script src="others/index.js"></script>
+</body>
+</html>
